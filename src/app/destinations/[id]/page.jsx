@@ -21,17 +21,15 @@ const DestinationDetailPage = async ({ params }) => {
     imageUrl,
     description,
   } = destination;
-  console.log(destination);
+  // console.log(destination);
 
   //   console.log(id);
 
   return (
     <div className="max-w-7xl mx-auto">
-        <Editmodal/>
+        <Editmodal destination={destination} />
 
-        {/* <div className="flex justify-end">
-            <Button variant="outline" className={"rounded-none my-10" }> <BiEdit/> Edit</Button>
-        </div> */}
+        
       <Image alt={destinationName} src={imageUrl} height={500} width={800} className="w-full object-cover" />
 
       <div className="space-y-3 p-4">

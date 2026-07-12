@@ -15,53 +15,63 @@ import {
 } from "@heroui/react";
 import { BiEdit } from "react-icons/bi";
 import { Envelope } from "@gravity-ui/icons";
+import { toast } from "react-toastify";
 
-const Editmodal = () => {
+const Editmodal = ({ destination }) => {
+  const {
+    _id,
+    destinationName,
+    country,
+    price,
+    duration,
+    departureDate,
+    imageUrl,
+    description,
+    category,
+  } = destination;
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const destination = Object.fromEntries(formData.entries());
-    console.log(destination);
+    // console.log(destination);
 
-    // try {
-    //   const res = await fetch("http://localhost:5000/destination", {
-    //     method: "POST",
-    //     headers: {
-    //       "content-type": "application/json",
-    //     },
+    try {
+      const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
 
-    //     body: JSON.stringify(destination),
-    //   });
+        body: JSON.stringify(destination),
+      });
 
-    //   const data = await res.json();
+      const data = await res.json();
 
-    //   if (data.insertedId) {
-    //     toast.success("Destination added succesfully!");
-    //     e.target.reset();
-    //   } else toast.error("Failed to add destinatoin!");
-    //   console.log(data);
-    // } catch (error) {
-    //   toast.error("Something Went Wrong!");
-    //   console.error(error);
-    // }
+      if (data.matchedCount > 0) {
+        toast.success("Destination update succesfully!");
+        e.target.reset();
+      } else toast.error("Failed to aupdate destinatoin!");
+      console.log(data);
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+      console.error(error);
+    }
   };
   return (
     <div>
-      {" "}
       <Modal>
-        <Button variant="outline" className={"rounded-none my-10"}>
-          {" "}
-          <BiEdit /> Edit
-        </Button>
+        <div className="flex justify-end">
+          <Button variant="outline" className={"rounded-none my-10"}>
+            <BiEdit /> Edit
+          </Button>
+        </div>
         <Modal.Backdrop>
           <Modal.Container placement="auto">
-            <Modal.Dialog className="sm:max-w-md">
+            <Modal.Dialog className="min-w-4xl">
               <Modal.CloseTrigger />
               <Modal.Header>
-                <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
-                  <Envelope className="size-5" />
-                </Modal.Icon>
-                <Modal.Heading>Contact Us</Modal.Heading>
+                <Modal.Heading>Edit Destination</Modal.Heading>
                 <p className="mt-1.5 text-sm leading-5 text-muted">
                   Fill out the form below and we will get back to you. The modal
                   adapts automatically when the keyboard appears on mobile.
@@ -69,12 +79,16 @@ const Editmodal = () => {
               </Modal.Header>
               <Modal.Body className="p-6">
                 <Surface variant="default">
-                  <Card className="min-w-4xl">
+                  <Card>
                     <form className="p-10 space-y-8" onSubmit={onSubmit}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Destination Name */}
                         <div className="md:col-span-2">
-                          <TextField name="destinationName" isRequired>
+                          <TextField
+                            defaultValue={destinationName}
+                            name="destinationName"
+                            isRequired
+                          >
                             <Label>Destination Name</Label>
                             <Input
                               placeholder="Bali Paradise"
@@ -85,7 +99,11 @@ const Editmodal = () => {
                         </div>
 
                         {/* Country */}
-                        <TextField name="country" isRequired>
+                        <TextField
+                          defaultValue={country}
+                          name="country"
+                          isRequired
+                        >
                           <Label>Country</Label>
                           <Input
                             placeholder="Indonesia"
@@ -97,6 +115,7 @@ const Editmodal = () => {
                         {/* Category - Updated Select Component */}
                         <div>
                           <Select
+                            defaultValue={category}
                             name="category"
                             isRequired
                             className="w-full"
@@ -148,7 +167,12 @@ const Editmodal = () => {
                         </div>
 
                         {/* Price */}
-                        <TextField name="price" type="number" isRequired>
+                        <TextField
+                          defaultValue={price}
+                          name="price"
+                          type="number"
+                          isRequired
+                        >
                           <Label>Price (USD)</Label>
                           <Input
                             type="number"
@@ -159,7 +183,11 @@ const Editmodal = () => {
                         </TextField>
 
                         {/* Duration */}
-                        <TextField name="duration" isRequired>
+                        <TextField
+                          defaultValue={duration}
+                          name="duration"
+                          isRequired
+                        >
                           <Label>Duration</Label>
                           <Input
                             placeholder="7 Days / 6 Nights"
@@ -171,6 +199,7 @@ const Editmodal = () => {
                         {/* Departure Date */}
                         <div className="md:col-span-2">
                           <TextField
+                            defaultValue={departureDate}
                             name="departureDate"
                             type="date"
                             isRequired
@@ -183,7 +212,11 @@ const Editmodal = () => {
 
                         {/* Image URL - Removed preview */}
                         <div className="md:col-span-2">
-                          <TextField name="imageUrl" isRequired>
+                          <TextField
+                            defaultValue={imageUrl}
+                            name="imageUrl"
+                            isRequired
+                          >
                             <Label>Image URL</Label>
                             <Input
                               type="url"
@@ -196,7 +229,11 @@ const Editmodal = () => {
 
                         {/* Description */}
                         <div className="md:col-span-2">
-                          <TextField name="description" isRequired>
+                          <TextField
+                            defaultValue={description}
+                            name="description"
+                            isRequired
+                          >
                             <Label>Description</Label>
                             <TextArea
                               placeholder="Describe the travel experience..."
@@ -209,26 +246,15 @@ const Editmodal = () => {
 
                       {/* Buttons */}
 
-                      <Button
-                        type="submit"
-                        variant="outline"
-                        //   isLoading={isPending}
-                        className=" rounded-none w-full bg-cyan-500 text-white"
-                      >
-                        {" "}
-                        Submit form
-                        {/* {isPending ? "Adding Package..." : "Add Travel Package"} */}
-                      </Button>
+                      <Modal.Footer>
+                        <Button type="submit" slot="close">
+                          Save
+                        </Button>
+                      </Modal.Footer>
                     </form>
                   </Card>
                 </Surface>
               </Modal.Body>
-              <Modal.Footer>
-                <Button slot="close" variant="secondary">
-                  Cancel
-                </Button>
-                <Button slot="close">Send Message</Button>
-              </Modal.Footer>
             </Modal.Dialog>
           </Modal.Container>
         </Modal.Backdrop>
@@ -238,3 +264,5 @@ const Editmodal = () => {
 };
 
 export default Editmodal;
+
+// 52.7; /// 9.19
