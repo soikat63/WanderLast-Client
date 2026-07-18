@@ -1,3 +1,4 @@
+import DelateAlert from "@/components/DelateAlert";
 import Editmodal from "@/components/Editmodal";
 import { Button } from "@heroui/react";
 import Image from "next/image";
@@ -27,10 +28,18 @@ const DestinationDetailPage = async ({ params }) => {
 
   return (
     <div className="max-w-7xl mx-auto">
+      <div className="flex items-center gap-3  justify-end my-6">
         <Editmodal destination={destination} />
+        <DelateAlert destination={destination} />
+      </div>
 
-        
-      <Image alt={destinationName} src={imageUrl} height={500} width={800} className="w-full object-cover" />
+      <Image
+        alt={destinationName}
+        src={imageUrl}
+        height={500}
+        width={800}
+        className="w-full object-cover"
+      />
 
       <div className="space-y-3 p-4">
         <div className="flex items-center gap-2 text-gray-500">
@@ -49,9 +58,8 @@ const DestinationDetailPage = async ({ params }) => {
         </div>
 
         <div>
-
-        <h3 className=" mt-1 font-semibold text-2xl">Overview</h3>
-        <p>{description}</p>
+          <h3 className=" mt-1 font-semibold text-2xl">Overview</h3>
+          <p>{description}</p>
         </div>
       </div>
     </div>

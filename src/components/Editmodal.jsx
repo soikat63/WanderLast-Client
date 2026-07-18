@@ -62,7 +62,7 @@ const Editmodal = ({ destination }) => {
     <div>
       <Modal>
         <div className="flex justify-end">
-          <Button variant="outline" className={"rounded-none my-10"}>
+          <Button variant="outline" className={"rounded-none "}>
             <BiEdit /> Edit
           </Button>
         </div>
@@ -264,5 +264,3 @@ const Editmodal = ({ destination }) => {
 };
 
 export default Editmodal;
-
-// 52.7; /// 9.19
