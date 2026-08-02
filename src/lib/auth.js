@@ -7,11 +7,17 @@ const db = client.db("wanderlast");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
-    
     client,
   }),
 
-  emailAndPassword:{
-    enabled:true,
-  }
+  emailAndPassword: {
+    enabled: true,
+  },
+
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENTID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  },
 });

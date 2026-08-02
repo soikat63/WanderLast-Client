@@ -9,9 +9,11 @@ import {
   Form,
   Input,
   Label,
+  Separator,
   TextField,
 } from "@heroui/react";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -26,24 +28,27 @@ const Login = () => {
       password: user.password,
     });
 
-    console.log({data, error});
-    
+    console.log({ data, error });
 
     if (error) {
-      toast.error(error.message || "Sign Up Failed!")
+      toast.error(error.message || "Sign Up Failed!");
       return;
-      
     }
 
-    toast.success("Account created succesfully!")
-    redirect("/")
+    toast.success("Account created succesfully!");
+    redirect("/");
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
     <div className=" flex justify-center py-7">
       <Card>
         <Form onSubmit={onSubmit} className="flex w-96 flex-col gap-4">
-        
           <TextField
             isRequired
             name="email"
@@ -88,6 +93,23 @@ const Login = () => {
             <Button type="submit">Login</Button>
           </div>
         </Form>
+
+        <div className="flex items-center gap-3 w-full">
+          {" "}
+          <Separator className="flex-1" />{" "}
+          <div className="whitespace-nowrap">Or sign up with </div>{" "}
+          <Separator className="flex-1" />{" "}
+        </div>
+        <div>
+          <Button
+            onClick={handleGoogleSignIn}
+            variant="outline"
+            className="w-full"
+          >
+            {" "}
+            <FcGoogle /> Sign In With Google
+          </Button>
+        </div>
       </Card>
     </div>
   );

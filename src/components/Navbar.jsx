@@ -8,9 +8,11 @@ const Navbar = () => {
 
   const user = session?.user;
 
-  console.log(user);
+  // console.log(user);
 
-  //  console.log(session);
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
 
   return (
     <nav className="flex justify-between items-center py-5 px-5 ">
@@ -38,6 +40,7 @@ const Navbar = () => {
           alt="Nav logo"
           width={150}
           height={100}
+          className="h-10 w-auto"
         />
       </div>
       <ul className="flex items-center gap-6">
@@ -49,15 +52,12 @@ const Navbar = () => {
           <>
             <li>
               <Avatar>
-                <Avatar.Image
-                  alt= {user?.name}
-                  src={user?.image}
-                />
+                <Avatar.Image alt={user?.name} src={user?.image} />
                 <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
               </Avatar>
             </li>
             <li>
-              <Button>Logout</Button>
+              <Button onClick={handleSignOut}>Logout</Button>
             </li>
           </>
         ) : (
@@ -76,7 +76,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-//53.4

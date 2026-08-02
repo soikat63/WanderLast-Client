@@ -1,3 +1,4 @@
+import BookingCard from "@/components/BookingCard";
 import DelateAlert from "@/components/DelateAlert";
 import Editmodal from "@/components/Editmodal";
 import { Button } from "@heroui/react";
@@ -13,12 +14,9 @@ const DestinationDetailPage = async ({ params }) => {
   const res = await fetch(`http://localhost:5000/destination/${id}`);
   const destination = await res.json();
   const {
-    _id,
     destinationName,
     country,
-    price,
     duration,
-    departureDate,
     imageUrl,
     description,
   } = destination;
@@ -41,25 +39,31 @@ const DestinationDetailPage = async ({ params }) => {
         className="w-full object-cover"
       />
 
-      <div className="space-y-3 p-4">
-        <div className="flex items-center gap-2 text-gray-500">
-          <LuMapPin className="text-lg" />
-          <span>{country}</span>
-        </div>
+      <div className=" flex justify-between items-start mt-12">
+        <div className="space-y-3 p-4">
+          <div className="flex items-center gap-2 text-gray-500">
+            <LuMapPin className="text-lg" />
+            <span>{country}</span>
+          </div>
 
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">{destinationName}</h2>
-          <span className="text-lg font-semibold text-blue-600">${price}</span>
-        </div>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold">{destinationName}</h2>
+          </div>
 
-        <div className="flex items-center gap-2 text-gray-500">
-          <FaRegCalendar />
-          <span>{duration}</span>
+          <div className="flex items-center gap-2 text-gray-500">
+            <FaRegCalendar />
+            <span>{duration}</span>
+          </div>
+
+          <div>
+            <h3 className=" mt-1 font-semibold text-2xl">Overview</h3>
+            <p>{description}</p>
+          </div>
         </div>
 
         <div>
-          <h3 className=" mt-1 font-semibold text-2xl">Overview</h3>
-          <p>{description}</p>
+          
+          <BookingCard destination={destination}/>
         </div>
       </div>
     </div>
