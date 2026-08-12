@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { today, getLocalTimeZone } from "@internationalized/date";
+import { bearer } from "better-auth/plugins";
 
 const BookingCard = ({ destination }) => {
   const router = useRouter();
@@ -46,10 +47,15 @@ const BookingCard = ({ destination }) => {
         departureDate: departureDate.toDate(getLocalTimeZone()),
       };
 
+      const {data:tokenData}= await authClient.token()
+      console.log(tokenData);
+      
+
       const res = await fetch("http://localhost:5000/booking", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`
         },
         body: JSON.stringify(bookingData),
       });

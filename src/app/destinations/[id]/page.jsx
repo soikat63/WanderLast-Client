@@ -1,7 +1,9 @@
 import BookingCard from "@/components/BookingCard";
 import DelateAlert from "@/components/DelateAlert";
 import Editmodal from "@/components/Editmodal";
+import { auth } from "@/lib/auth";
 import { Button } from "@heroui/react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
@@ -11,15 +13,20 @@ import { LuMapPin } from "react-icons/lu";
 const DestinationDetailPage = async ({ params }) => {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:5000/destination/${id}`);
+  const {token} = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  // console.log(token);
+
+  const res = await fetch(`http://localhost:5000/destination/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
   const destination = await res.json();
-  const {
-    destinationName,
-    country,
-    duration,
-    imageUrl,
-    description,
-  } = destination;
+  const { destinationName, country, duration, imageUrl, description } =
+    destination;
   // console.log(destination);
 
   //   console.log(id);
@@ -62,8 +69,7 @@ const DestinationDetailPage = async ({ params }) => {
         </div>
 
         <div>
-          
-          <BookingCard destination={destination}/>
+          <BookingCard destination={destination} />
         </div>
       </div>
     </div>

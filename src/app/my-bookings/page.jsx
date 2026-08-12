@@ -1,8 +1,5 @@
 import BookingDelateAlert from "@/components/BookingDelateAlert";
 import { auth } from "@/lib/auth";
-import { TrashBin } from "@gravity-ui/icons";
-import { Button } from "@heroui/react";
-import { map } from "better-auth";
 import { headers } from "next/headers";
 import Image from "next/image";
 import React from "react";
@@ -12,12 +9,21 @@ const MyBookings = async () => {
     headers: await headers(), // you need to pass the headers object.
   });
 
+  const {token} = await auth.api.getToken({
+      headers: await headers(),
+    });
+  
+
   // console.log(session);
 
   const user = session?.user;
   //   console.log(user);
 
-  const res = await fetch(`http://localhost:5000/booking/${user?.id}`);
+  const res = await fetch(`http://localhost:5000/booking/${user?.id}` , {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
 
   const bookings = await res.json();
 //   console.log(bookings);

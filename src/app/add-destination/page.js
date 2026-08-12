@@ -14,7 +14,9 @@ import {
 import React from "react";
 import { toast } from "react-toastify";
 
-const AddDestinationPage = () => {
+const AddDestinationPage =  () => {
+
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -22,10 +24,12 @@ const AddDestinationPage = () => {
     console.log(destination);
 
     try {
+      const { data: tokenData } =await authClient.token();
       const res = await fetch("http://localhost:5000/destination", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
 
         body: JSON.stringify(destination),

@@ -1,18 +1,21 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { TrashBin } from "@gravity-ui/icons";
 import { AlertDialog, Button } from "@heroui/react";
 
 const BookingDelateAlert = ({ bookingId }) => {
   const handleCancelBooking = async () => {
+    const { data: tokenData } = await authClient.token();
     const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
     });
     const data = await res.json();
 
-    window.location.reload()
+    window.location.reload();
     console.log(data);
   };
   return (

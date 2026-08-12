@@ -8,12 +8,13 @@ const DelateAlert = ({ destination }) => {
   const { _id, destinationName } = destination;
 
   const handleDelate = async () => {
+    const { data: tokenData } = await authClient.token();
     const res = await fetch(`http://localhost:5000/destination/${_id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
-
     });
     const data =await res.json()
     redirect("/destinations");
