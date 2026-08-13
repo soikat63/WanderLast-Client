@@ -9,7 +9,7 @@ const DelateAlert = ({ destination }) => {
 
   const handleDelate = async () => {
     const { data: tokenData } = await authClient.token();
-    const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/destination/${_id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
