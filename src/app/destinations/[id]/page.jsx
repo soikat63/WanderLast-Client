@@ -2,78 +2,78 @@ import BookingCard from "@/components/BookingCard";
 import DelateAlert from "@/components/DelateAlert";
 import Editmodal from "@/components/Editmodal";
 import { auth } from "@/lib/auth";
-import { Button } from "@heroui/react";
 import { headers } from "next/headers";
 import Image from "next/image";
-import React from "react";
-import { BiEdit } from "react-icons/bi";
-import { FaRegCalendar } from "react-icons/fa";
-import { LuMapPin } from "react-icons/lu";
 
 const DestinationDetailPage = async ({ params }) => {
   const { id } = await params;
 
-  const {token} = await auth.api.getToken({
+  const { token } = await auth.api.getToken({
     headers: await headers(),
   });
 
-  // console.log(token);
-
   const res = await fetch(
-    `${process.env.SERVER_URL}/destination/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${id}`,
     {
       headers: {
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
     },
   );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch destination");
+  }
+
   const destination = await res.json();
+
   const { destinationName, country, duration, imageUrl, description } =
     destination;
-  // console.log(destination);
-
-  //   console.log(id);
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center gap-3  justify-end my-6">
+    <div className="mx-auto max-w-7xl">
+      {/* Actions */}
+      <div className="my-6 flex items-center justify-end gap-3">
         <Editmodal destination={destination} />
         <DelateAlert destination={destination} />
       </div>
 
+      {/* Destination Image */}
       <Image
-        alt={destinationName}
         src={imageUrl}
-        height={500}
+        alt={destinationName}
         width={800}
-        className="w-full object-cover"
+        height={500}
+        className="h-auto w-full object-cover"
       />
 
-      <div className=" flex justify-between items-start mt-12">
+      {/* Destination Information */}
+      <div className="mt-12 flex items-start justify-between gap-8">
         <div className="space-y-3 p-4">
+          {/* Country */}
           <div className="flex items-center gap-2 text-gray-500">
-            <LuMapPin className="text-lg" />
             <span>{country}</span>
           </div>
 
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">{destinationName}</h2>
-          </div>
+          {/* Destination Name */}
+          <h2 className="text-xl font-bold">{destinationName}</h2>
 
+          {/* Duration */}
           <div className="flex items-center gap-2 text-gray-500">
-            <FaRegCalendar />
             <span>{duration}</span>
           </div>
 
+          {/* Description */}
           <div>
-            <h3 className=" mt-1 font-semibold text-2xl">Overview</h3>
+            <h3 className="mt-1 text-2xl font-semibold">Overview</h3>
+
             <p>{description}</p>
           </div>
         </div>
 
-        <div>
-          <BookingCard destination={destination} />
-        </div>
+        {/* Booking */}
+        <BookingCard destination={destination} />
       </div>
     </div>
   );
