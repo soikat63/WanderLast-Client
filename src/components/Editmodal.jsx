@@ -16,6 +16,7 @@ import {
 import { BiEdit } from "react-icons/bi";
 import { Envelope } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
 
 const Editmodal = ({ destination }) => {
   const {
