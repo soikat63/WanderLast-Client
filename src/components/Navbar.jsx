@@ -43,7 +43,7 @@ const Navbar = () => {
       </div>
       <ul className="flex items-center gap-6">
         <li>
-          <Link href={"/profile"}>Profile</Link>
+          <Link href={"#"}>Profile</Link>
         </li>
 
         {user ? (
