@@ -19,11 +19,14 @@ const MyBookings = async () => {
   const user = session?.user;
   //   console.log(user);
 
-  const res = await fetch(`${process.env.SERVER_URL}/booking/${user?.id}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   const bookings = await res.json();
 //   console.log(bookings);

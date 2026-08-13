@@ -26,7 +26,7 @@ const AddDestinationPage =  () => {
     try {
       const { data: tokenData } =await authClient.token();
       const res = await fetch(
-        `${process.env.SERVER_URL}/destination`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,
         {
           method: "POST",
           headers: {
